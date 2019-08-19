@@ -7,12 +7,21 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
-    "react-scripts": "3.1.1"
+    "concurrently": "^4.1.2",
+    "cypress": "^3.4.1",
+    "react-scripts": "3.1.1",
+    "wait-on": "^3.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:wait": "npm run start & wait-on http://localhost:3000",
     "build": "react-scripts build",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "test": "react-scripts test",
+    "test:ci": "CI=true npm run test && npm run start:wait && npm run cy:run",
+    "test:e2e": "npm run start:wait && npm run cy:open",
+    "test:watch": "concurrently --kill-others \"npm:start\" \"wait-on http://localhost:3000 && npm run cy:open\" \"npm:test -- --watchAll\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
